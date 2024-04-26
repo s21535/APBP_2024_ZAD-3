@@ -6,6 +6,7 @@ public interface IAnimalRepository
 {
     public IEnumerable<Animal> FetchAllAnimals(string orderBy);
     public bool CreateAnimal(string Name);
+    public bool DeleteAnimal(int IdAnimal);
 }
 
 public class AnimalRepository : IAnimalRepository
@@ -50,6 +51,17 @@ public class AnimalRepository : IAnimalRepository
 
         using var command = new SqlCommand("INSERT INTO Animals VALUES (@Name)", connection);
         command.Parameters.AddWithValue("Name", Name);
+        var affectedRows = command.ExecuteNonQuery();
+        return affectedRows == 1;
+    }
+    
+    public bool DeleteAnimal(int IdAnimal)
+    {
+        var connection = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]);
+        connection.Open();
+
+        using var command = new SqlCommand("DELETE FROM Animals VALUES (@IdAnimal)", connection);
+        command.Parameters.AddWithValue("IdAnimal", IdAnimal);
         var affectedRows = command.ExecuteNonQuery();
         return affectedRows == 1;
     }
