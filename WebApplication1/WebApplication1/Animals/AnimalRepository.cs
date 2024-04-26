@@ -5,6 +5,7 @@ namespace WebApplication1.Animals;
 public interface IAnimalRepository
 {
     public IEnumerable<Animal> FetchAllAnimals(string orderBy);
+    public bool CreateAnimal(string Name);
 }
 
 public class AnimalRepository : IAnimalRepository
@@ -41,4 +42,16 @@ public class AnimalRepository : IAnimalRepository
 
         return animals;
     }
+    
+    public bool CreateAnimal(string Name)
+    {
+        var connection = new SqlConnection(_configuration["ConnectionStrings:DefaultConnection"]);
+        connection.Open();
+
+        using var command = new SqlCommand("INSERT INTO Animals VALUES (@Name)", connection);
+        command.Parameters.AddWithValue("Name", Name);
+        var affectedRows = command.ExecuteNonQuery();
+        return affectedRows == 1;
+    }
+    
 }

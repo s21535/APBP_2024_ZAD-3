@@ -3,6 +3,7 @@ namespace WebApplication1.Animals;
 public interface IAnimalService
 {
     IEnumerable<Animal> GetAllAnimals(string orderBy);
+    public bool AddAnimal(CreateAnimalDTO dto);
 }
 
 public class AnimalService : IAnimalService
@@ -17,6 +18,11 @@ public class AnimalService : IAnimalService
     public IEnumerable<Animal> GetAllAnimals(string orderBy)
     {
         return _animalRepository.FetchAllAnimals(orderBy);
+    }
+
+    public bool AddAnimal(CreateAnimalDTO dto)
+    {
+        return _animalRepository.CreateAnimal(dto.Name);
     }
     
 }

@@ -1,14 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
-using WebApplication1.Animals;
 
-namespace WebApplication1.Controller;
+namespace WebApplication1.Animals;
 
 [ApiController]
 [Route("/api/animal")]
 public class AnimalController : ControllerBase
 {
     private readonly IAnimalService _animalService;
-
     public AnimalController(IAnimalService animalService)
     {
         _animalService = animalService;
@@ -19,5 +17,12 @@ public class AnimalController : ControllerBase
     {
         var animals = _animalService.GetAllAnimals(orderBy);
         return Ok(animals);
+    }
+
+    [HttpPost]
+    public IActionResult CreateAnimal([FromBody] CreateAnimalDTO dto)
+    {
+        var success = _animalService.AddAnimal(dto);
+        return success ? Created() : Conflict();
     }
 }
