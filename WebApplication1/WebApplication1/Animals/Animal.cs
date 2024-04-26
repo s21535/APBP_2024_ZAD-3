@@ -1,8 +1,7 @@
-namespace WebApplication1.Models;
-
+namespace WebApplication1.Animals;
 public class Animal
 {
-    public int Id { get; set; }
+    public int IdAnimal { get; set; }
     public String Name { get; set; }
     public String Description { get; set; }
     public String Category { get; set; }
